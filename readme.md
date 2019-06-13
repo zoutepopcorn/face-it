@@ -81,6 +81,47 @@ for(const output of idsSelect) {
 }
 ```
 
+##### 2.1 :point_right: get id's TESTING 
+```js
+// 2.1
+const comments = document.querySelectorAll("[aria-label^='Comment']")
+const commentsMap = new Map()
+const userMap = new Map();
+
+for (const comment of comments) {
+    const a = comment.querySelector("a")
+    const id = a.getAttribute("data-hovercard").replace("/ajax/hovercard/user.php?id=", "")
+    const nameId = a.getAttribute("href").replace("/", "")
+    const img = a.querySelector("img").getAttribute("src")
+    // TODO: to chrono?
+    const date = comment.querySelector("abbr").getAttribute("data-tooltip-content")  // data-utime
+    let count = 0;
+    let item = {id: id, nameId: nameId, img: img, date: date, count: count};
+    if (userMap.has(id)) {
+        console.log(`heb ik al ${id}`);
+        let newObject = {count: userMap.get(id).count + 1}
+        console.log(newObject);
+        userMap.set(id, newObject)
+        console.log(userMap.get(id));
+    } else {
+        userMap.set(id, {count: 0})
+    }
+}
+console.log('array');
+console.log(Array.from(userMap));
+
+
+let output = Array.from(userMap)
+output.sort((a, b) => {
+    console.log(a[1].count);
+    console.log(b[1].count);
+    return a[1].count > b[1].count;
+});
+
+console.log(output);
+```
+
+
 
 ### 2.2 :point_right: get selectors
 ```js
@@ -145,12 +186,16 @@ setTimeout(() => {
 // ON: https://www.facebook.com/story.php?story_fbid=10107516989200181&id=4
 const domPost = {
         content: 'contentArea',
+        comment: "[aria-label^='Comment']"
         hover: "[data-hovercard^='/ajax/hovercard/user.php']",
         post: "a[data-sigil='feed-ufi-trigger']",
         reply: '[data-testid="UFI2Comment/reply-link"]',
         more: '[data-testid="UFI2CommentsPagerRenderer/pager_depth_0"]'
     }
 ```
+
+
+
 
 // ON: https://m.facebook.com/4
 ```js
