@@ -3,13 +3,13 @@
 # 1 Homepage 
 https://m.facebook.com/zuck
 
-### 1.1 facebook id
+### 1.1 :heavy_check_mark: facebook id
 ```js
 const profileJSON = JSON.parse(document.querySelector("#pages_follow_action_id").getAttribute("data-store"))
 const profileId = profileJSON["hq-profile-logging"]["profile_id"]
 ```
 
-### 1.2 elements from posts
+### 1.2 :heavy_check_mark: elements from posts
 
 ```js
 const posts = []
@@ -25,13 +25,13 @@ for(const article of articles) {
 console.log(`found posts: ${posts.length}`);
 console.log(posts)
 ```
-### 1.3 * save in localStorage
+### 1.3 :balloon: * save in localStorage
 ```js
 localStorage.setItem("scrape", profileId);
 localStorage.setItem("scrapeData", JSON.stringify(posts));
 ```
 
-### 1.4 homepage - automate :heavy_check_mark:
+### 1.4 :heavy_check_mark: homepage - automate 
 ```js
 const MAX = 3;
 // Scrape all comments
@@ -80,7 +80,7 @@ console.log(moreReplies.innerText)
 ```
 
 # 3 automate (general)
-### 3.1
+### 3.1 :heavy_check_mark: scroll example
 ```js
 // Scroll 10.000 px to the bottom
 scrollBy(0,10000)
@@ -88,7 +88,7 @@ scrollBy(0,10000)
 document.body.clientHeight
 ```
 
-### 3.2
+### 3.2 :heavy_check_mark: interval scroller
 ```js
 const scrollInterval = (timeInterval, retry, cb) => {
     let tmpHeight = 0;
