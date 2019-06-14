@@ -68,59 +68,53 @@ document.body.clientHeight
 ###### using DESKTOP site: https://www.facebook.com/*
 
 ### 2.1 :point_right: get id's
-
-```js
-// TODO: make map / set to keep track
-const idsSelect = document.querySelectorAll("[data-hovercard^='/ajax/hovercard/user.php']._3mf5")
-const ids = [];
-for(const output of idsSelect) {
-    const id = output.getAttribute("data-hovercard").replace("/ajax/hovercard/user.php?id=", "")
-    // ids.push();
-   
-	console.log(id)
-}
-```
-
-##### 2.1 :point_right: get id's TESTING 
 ```js
 // 2.1
-const comments = document.querySelectorAll("[aria-label^='Comment']")
-const commentsMap = new Map()
-const userMap = new Map();
-
+'use strict';
+const comments = document.querySelectorAll("[aria-label^='Comment']");
+const commentsMap = new Map();
 for (const comment of comments) {
-    const a = comment.querySelector("a")
-    const id = a.getAttribute("data-hovercard").replace("/ajax/hovercard/user.php?id=", "")
-    const nameId = a.getAttribute("href").replace("/", "")
-    const img = a.querySelector("img").getAttribute("src")
+    const a = comment.querySelector("a");
+    const id = a.getAttribute("data-hovercard").replace("/ajax/hovercard/user.php?id=", "");
+    const nameId = a.getAttribute("href").replace("/", "");
+    const img = a.querySelector("img").getAttribute("src");
     // TODO: to chrono?
-    const date = comment.querySelector("abbr").getAttribute("data-tooltip-content")  // data-utime
-    let count = 0;
-    let item = {id: id, nameId: nameId, img: img, date: date, count: count};
-    if (userMap.has(id)) {
-        console.log(`heb ik al ${id}`);
-        let newObject = {count: userMap.get(id).count + 1}
-        console.log(newObject);
-        userMap.set(id, newObject)
-        console.log(userMap.get(id));
+    const date = comment.querySelector("abbr").getAttribute("data-tooltip-content");  // data-utime
+    let item = {id: id, nameId: nameId, img: img, date: date };
+    if (commentsMap.has(id)) {
+        console.log(`has comment id ${id}`);
+        const newItem = {count: commentsMap.get(id).count + 1, items: [...commentsMap.get(id).items, item]};
+        console.log(newItem);
+        commentsMap.set(id, newItem);
     } else {
-        userMap.set(id, {count: 0})
+        commentsMap.set(id, {count: 0, items: [item]});
     }
 }
-console.log('array');
-console.log(Array.from(userMap));
+console.log(commentsMap);
 
-
-let output = Array.from(userMap)
-output.sort((a, b) => {
-    console.log(a[1].count);
-    console.log(b[1].count);
-    return a[1].count > b[1].count;
-});
-
-console.log(output);
+const sortBy = (sortMap, name) => {
+    'use strict';
+    return [...sortMap.values()].sort((a, b)=> {
+        return b[name] - a[name]
+    });
+};
+console.log(sortBy(commentsMap, "count"));
 ```
 
+```js
+'use strict'
+const userMap = new Map();
+userMap.set("1", {id: 100});
+userMap.set("2", {id: 300});
+userMap.set("3", {id: 111});
+const sortBy = (sortMap, name) => {
+  return [...sortMap.values()].sort((a, b)=> {
+    return a[name] - b[name]
+  });
+};
+const sorted = sortBy(userMap, "id");
+console.log(sorted);
+```
 
 
 ### 2.2 :point_right: get selectors
